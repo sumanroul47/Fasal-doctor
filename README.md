@@ -29,6 +29,8 @@ No complicated setup for the farmer — just a photo and a few seconds.
 - Vite
 - Google Gemini Vision API
 
+**🔗 Live App:** https://fasal-doctor.vercel.app/
+
 ## Running it locally
 
 \`\`\`bash
