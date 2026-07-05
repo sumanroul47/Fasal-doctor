@@ -1,0 +1,12 @@
+{
+  "name": "Fasal Doctor",
+  "description": "Smart Weather, Crop Diagnostics, and Market Insights for Indian Farmers",
+  "requestFramePermissions": [
+    "geolocation",
+    "camera",
+    "microphone"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
