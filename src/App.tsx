@@ -46,7 +46,28 @@ const getProfileTabLabel = (lang: Language): string => {
 };
 
 export default function App() {
-  const [screen, setScreen] = useState<Screen>('landing');
+  // Master User Authentication and Onboarding States
+  const [user, setUser] = useState<User | null>(() => {
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('fasal_user');
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch (e) {
+          console.error('Failed to parse saved user:', e);
+        }
+      }
+    }
+    return null;
+  });
+
+  const [screen, setScreen] = useState<Screen>(() => {
+    if (typeof window !== 'undefined') {
+      const savedUser = localStorage.getItem('fasal_user');
+      if (savedUser) return 'dashboard';
+    }
+    return 'landing';
+  });
   
   // Theme State (Light / Dark)
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
@@ -67,12 +88,12 @@ export default function App() {
     }
   }, [theme]);
   
-  // Master User Authentication and Onboarding States
-  const [user, setUser] = useState<User | null>(null);
-  
   // Registration temporary states
   const [phone, setPhone] = useState('');
-  const [language, setLanguage] = useState<Language>('English');
+  const [language, setLanguage] = useState<Language>(() => {
+    if (user) return user.language;
+    return 'English';
+  });
   const [selectedCrops, setSelectedCrops] = useState<Crop[]>([]);
   const [coords, setCoords] = useState<{ lat?: number; lng?: number; address?: string } | null>(null);
   const [name, setName] = useState('');
@@ -125,6 +146,7 @@ export default function App() {
       voiceEnabled
     };
     setUser(newUser);
+    localStorage.setItem('fasal_user', JSON.stringify(newUser));
     setScreen('dashboard'); // Enter main authenticated app dashboard!
   };
 
@@ -135,16 +157,19 @@ export default function App() {
     setSelectedCrops([]);
     setCoords(null);
     setName('');
+    localStorage.removeItem('fasal_user');
     setScreen('landing');
   };
 
   const handleUpdateLanguage = (newLang: Language) => {
     setLanguage(newLang);
     if (user) {
-      setUser({
+      const updatedUser = {
         ...user,
         language: newLang
-      });
+      };
+      setUser(updatedUser);
+      localStorage.setItem('fasal_user', JSON.stringify(updatedUser));
     }
   };
 
@@ -251,7 +276,7 @@ export default function App() {
             )}
             {screen === 'insights' && <WeatherInsights user={user} onNavigate={setScreen} isOnline={isOnline} />}
             {screen === 'assistant' && <ChatScreen language={user.language} crops={user.crops} isOnline={isOnline} />}
-            {screen === 'market' && <MarketIntelligence language={user.language} crops={user.crops} isOnline={isOnline} />}
+            {screen === 'market' && <MarketIntelligence language={user.language} crops={user.crops} isOnline={isOnline} theme={theme} />}
             {screen === 'profile' && (
               <ProfileTab 
                 user={user} 
