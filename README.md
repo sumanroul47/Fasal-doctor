@@ -1,19 +1,46 @@
-<div align="center">
-</div>
+# Fasal Doctor
 
-# Run and deploy your AI Studio app
+Fasal Doctor is a web application that helps farmers identify crop diseases and receive practical recommendations.
 
-This contains everything you need to run your app locally.
+## Features
+- Upload a crop image
+- Detect affected plant regions
+- View disease analysis results
+- Get treatment and prevention suggestions
+- Responsive interface for desktop and mobile
 
-View your app in AI Studio: https://ai.studio/apps/bec32dd9-67b4-4809-b225-e3cc02df1e48
+## Tech Stack
+- React
+- TypeScript
+- Vite
+- Node.js
 
-## Run Locally
+## Getting Started
+### Prerequisites
+- Node.js 18+
 
-**Prerequisites:**  Node.js
+### Installation
+```bash
+npm install
+```
 
+### Run the project
+```bash
+npm run dev
+```
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Project Structure
+```
+src/
+components/
+public/
+```
+
+## Roadmap
+- Support more crops
+- Improve prediction accuracy
+- Add multilingual support
+- Offline mode
+
+## Author
+Suman Roul
